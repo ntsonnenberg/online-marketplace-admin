@@ -4,9 +4,16 @@ import Button from "./Button";
 import Input from "./Input";
 import { useFormState } from "react-dom";
 import { signup } from "@/actions/auth";
+import { useRouter } from "next/navigation";
 
 export default function SignupForm() {
   const [state, action] = useFormState(signup, undefined);
+
+  const router = useRouter();
+
+  if (state?.message === "Success") {
+    router.push("/");
+  }
 
   return (
     <form action={action} className="flex flex-col gap-4 w-1/4">
@@ -51,6 +58,9 @@ export default function SignupForm() {
       <Button color="primary" theme="filled" type="submit">
         Sign Up
       </Button>
+      {state?.message && state.message !== "Success" && (
+        <p className="text-red-700">{state.message}</p>
+      )}
     </form>
   );
 }

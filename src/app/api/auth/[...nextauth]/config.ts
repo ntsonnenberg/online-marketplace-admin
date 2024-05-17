@@ -1,9 +1,6 @@
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { Session, TokenSet } from "next-auth";
-import clientPromise from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import type { NextAuthOptions } from "next-auth";
 import { mongooseConnect } from "@/lib/mongoose";
 import User from "@/models/User";
@@ -42,8 +39,7 @@ export const authConfig: NextAuthOptions = {
             user.password
           );
           if (match) {
-            const { password, createdAt, ...rest } = user;
-            return rest;
+            return await User.findOne({ email: credentials.email }).lean();
           }
         }
 
@@ -58,14 +54,9 @@ export const authConfig: NextAuthOptions = {
   },
   callbacks: {
     signIn: async ({ user, account, profile }) => {
-      // console.log("User", user);
-      // console.log("Account", account);
-      // console.log("Profile", profile);
-
       await mongooseConnect();
 
       if (account?.provider === "google") {
-        console.log("got here");
         const existingUser = await User.findOne({ email: user.email });
 
         if (!existingUser) {

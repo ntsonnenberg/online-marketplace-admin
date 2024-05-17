@@ -31,9 +31,17 @@ export const signup = async (formState: FormState, formData: FormData) => {
     });
 
     if (response.status === 201) {
+      return { message: "Success" };
     }
   } catch (error) {
     console.log(error);
+    if (error instanceof Error) {
+      console.error(error);
+    }
+
+    return {
+      message: "An account with this email already exists.",
+    };
   }
 };
 

@@ -1,4 +1,3 @@
-import Button from "@/components/Button";
 import GoogleButton from "@/components/GoogleButton";
 import LoginForm from "@/components/LoginForm";
 import { authConfig } from "@/app/api/auth/[...nextauth]/config";
@@ -8,7 +7,7 @@ import Link from "next/link";
 export default async function HomePage() {
   const session = await getServerSession(authConfig);
 
-  console.log("SESSION:", session);
+  console.log("SESSION - LOGIN PAGE:", session);
 
   if (!session) {
     return (
@@ -31,12 +30,5 @@ export default async function HomePage() {
     );
   }
 
-  return (
-    <div className="flex flex-col gap-10">
-      You are logged in! {session?.user?.email}
-      <Button color="primary" theme="filled" className="w-40 m-10">
-        Sign Out
-      </Button>
-    </div>
-  );
+  return <div>Dashboard Page</div>;
 }
