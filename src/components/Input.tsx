@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { ComponentProps } from "react";
 
 interface InputProps extends ComponentProps<"input"> {
@@ -5,10 +6,10 @@ interface InputProps extends ComponentProps<"input"> {
 }
 
 export default function Input({ className, ...rest }: InputProps) {
-  return (
-    <input
-      {...rest}
-      className={`outline outline-1 outline-red-400 rounded-md p-2 focus:outline-none focus:outline-red-500 ${className}`}
-    />
+  const inputClasses = classNames(
+    "bg-transparent outline outline-1 outline-primary placeholder-primary-variant rounded-md p-2",
+    className
   );
+
+  return <input {...rest} className={inputClasses} />;
 }

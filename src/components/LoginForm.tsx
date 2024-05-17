@@ -1,13 +1,22 @@
+"use client";
+
+import { useFormState } from "react-dom";
 import Button from "./Button";
 import Input from "./Input";
+import { login } from "@/actions/auth";
 
 export default function LoginForm() {
+  const [state, action] = useFormState(login, undefined);
+
   return (
-    <form className="flex flex-col gap-10 w-1/4">
+    <form action={action} className="flex flex-col gap-4 w-1/4">
       <div className="flex flex-col gap-2">
         <label htmlFor="email">Email</label>
         <Input id="email" name="email" placeholder="Enter email..." />
       </div>
+      {state?.errors?.email && (
+        <p className="text-red-700">{state.errors.email}</p>
+      )}
       <div className="flex flex-col gap-2">
         <label htmlFor="password">Password</label>
         <Input
@@ -17,7 +26,17 @@ export default function LoginForm() {
           placeholder="Enter password..."
         />
       </div>
-      <Button color="red" type="filled" className="font-bold">
+      {state?.errors?.password && (
+        <div className="text-red-700">
+          <p>Password must:</p>
+          <ul>
+            {state.errors.password.map((error) => (
+              <li key={error}> - {error}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <Button color="primary" theme="filled" className="font-bold">
         Log In
       </Button>
     </form>

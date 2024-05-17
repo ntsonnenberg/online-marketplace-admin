@@ -1,11 +1,14 @@
-import { ComponentProps } from "react";
+"use client";
 
-interface ButtonProps extends ComponentProps<"button"> {
+import { ComponentProps } from "react";
+import classNames from "classnames";
+
+type ButtonProps = ComponentProps<"button"> & {
   children: any;
   color: string;
   theme: string;
   className?: string;
-}
+};
 
 export default function Button({
   children,
@@ -14,17 +17,27 @@ export default function Button({
   className,
   ...rest
 }: ButtonProps) {
-  const typeClasses =
-    theme === "filled"
-      ? `bg-red-400 outline outline-2 outline-${color}-400 text-white hover:bg-${color}-500`
-      : theme === "outline"
-      ? `bg-transparent outline outline-2 outline-${color}-400 text-${color}-400 hover:bg-${color}-400 hover:text-white`
-      : theme === "text"
-      ? `bg-transparent text-${color}-400 hover:text-${color}-500`
-      : "";
+  const buttonClasses = classNames(
+    "p-2 rounded-md",
+    {
+      "bg-primary text-on-primary hover:bg-primary-variant":
+        color === "primary" && theme === "filled",
+      "bg-secondary text-on-secondary hover:bg-secondary-variant":
+        color === "secondary" && theme === "filled",
+      "bg-transparent outline outline-2 outline-primary text-primary hover:bg-primary hover:text-on-primary":
+        color === "primary" && theme === "outline",
+      "bg-transparent outline outline-2 outline-secondary text-secondary hover:bg-secondary hover:text-on-secondary":
+        color === "secondary" && theme === "outline",
+      "bg-transparent text-primary hover:text-primary-variant":
+        color === "primary" && theme === "text",
+      "bg-transparent text-secondary hover:text-secondary-variant":
+        color === "secondary" && theme === "text",
+    },
+    className
+  );
 
   return (
-    <button className={`p-2 ${typeClasses} rounded-md ${className}`} {...rest}>
+    <button className={buttonClasses} {...rest}>
       {children}
     </button>
   );
