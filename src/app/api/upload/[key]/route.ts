@@ -20,7 +20,9 @@ export async function DELETE(req: NextRequest, context: { params: Params }) {
   }
 
   try {
-    s3Client.send(new DeleteObjectCommand({ Bucket, Key: key }));
+    s3Client.send(
+      new DeleteObjectCommand({ Bucket, Key: `product-images/${key}` })
+    );
 
     return NextResponse.json({ message: "success" }, { status: 200 });
   } catch (error) {

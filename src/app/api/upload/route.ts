@@ -18,9 +18,15 @@ export async function POST(req: NextRequest) {
 
     for (const file of files) {
       const Body = (await file.arrayBuffer()) as Buffer;
-      s3Client.send(new PutObjectCommand({ Bucket, Key: file.name, Body }));
+      s3Client.send(
+        new PutObjectCommand({
+          Bucket,
+          Key: `product-images/${file.name}`,
+          Body,
+        })
+      );
 
-      const link = `https://${Bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${file.name}`;
+      const link = `https://${Bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/product-images/${file.name}`;
       links.push(link);
     }
 
