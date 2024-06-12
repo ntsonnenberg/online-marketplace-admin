@@ -1,8 +1,6 @@
 "use client";
 
 import { useFormState } from "react-dom";
-import Button from "./Button";
-import Input from "./Input";
 import { login } from "@/actions/auth";
 
 export default function LoginForm() {
@@ -12,14 +10,14 @@ export default function LoginForm() {
     <form action={action} className="flex flex-col gap-4 w-1/4">
       <div className="flex flex-col gap-2">
         <label htmlFor="email">Email</label>
-        <Input id="email" name="email" placeholder="Enter email..." />
+        <input id="email" name="email" placeholder="Enter email..." />
       </div>
       {state?.errors?.email && (
         <p className="text-red-700">{state.errors.email}</p>
       )}
       <div className="flex flex-col gap-2">
         <label htmlFor="password">Password</label>
-        <Input
+        <input
           id="password"
           name="password"
           type="password"
@@ -36,9 +34,7 @@ export default function LoginForm() {
           </ul>
         </div>
       )}
-      <Button color="primary" theme="filled" className="font-bold">
-        Log In
-      </Button>
+      <button className="btn-primary-filled p-2 font-bold">Log In</button>
     </form>
   );
 }

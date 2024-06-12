@@ -3,7 +3,16 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import type { NextAuthOptions } from "next-auth";
 import { mongooseConnect } from "@/lib/mongoose";
-import User from "@/models/User";
+import { User } from "@/models/User";
+
+interface Session {
+  user: {
+    name?: string;
+    email: string;
+    image?: string;
+    id: string;
+  };
+}
 
 export const authConfig: NextAuthOptions = {
   providers: [

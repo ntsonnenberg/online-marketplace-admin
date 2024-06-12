@@ -7,8 +7,6 @@ import Link from "next/link";
 export default async function HomePage() {
   const session = await getServerSession(authConfig);
 
-  console.log("SESSION - LOGIN PAGE:", session);
-
   if (!session) {
     return (
       <div className="flex flex-col gap-20 justify-center items-center h-screen my-16">

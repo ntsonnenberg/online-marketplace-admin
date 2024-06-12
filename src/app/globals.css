@@ -7,3 +7,168 @@
     @apply bg-background text-primary;
   }
 }
+
+label {
+  @apply text-lg
+}
+
+input, textarea, select {
+  @apply bg-transparent outline outline-1 outline-primary placeholder-primary-variant rounded-sm p-2;
+  @apply focus:outline-2 focus:shadow-sm;
+}
+
+h1 {
+  @apply font-bold text-3xl;
+}
+
+h2 {
+  @apply text-xl;
+}
+
+.btn-primary-filled {
+  @apply rounded-sm bg-primary text-on-primary outline outline-2 outline-primary hover:bg-primary-variant hover:outline-primary-variant;
+}
+
+.btn-primary-outline {
+  @apply rounded-sm bg-transparent text-primary outline outline-2 outline-primary hover:bg-primary hover:text-on-primary
+}
+
+.btn-primary-text {
+  @apply bg-transparent text-primary hover:text-primary-variant
+}
+
+.btn-secondary-filled {
+  @apply rounded-sm bg-secondary text-on-secondary outline outline-2 outline-secondary hover:bg-secondary-variant hover:outline-secondary-variant;
+}
+
+.btn-secondary-outline {
+  @apply rounded-sm bg-transparent text-secondary outline outline-2 outline-secondary hover:bg-secondary hover:text-on-secondary;
+}
+
+.btn-secondary-text {
+  @apply bg-transparent text-secondary hover:text-secondary-variant;
+}
+
+.btn-delete-filled {
+  @apply rounded-sm bg-red-700 text-on-primary outline outline-2 outline-red-700 hover:bg-red-500 hover:outline-red-500;
+}
+
+.btn-delete-outline {
+  @apply rounded-sm bg-transparent text-red-700 outline outline-2 outline-red-700 hover:bg-red-700 hover:text-on-primary;
+}
+
+.btn-delete-text {
+  @apply bg-transparent text-red-700 hover:text-red-500;
+}
+
+.loader {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  border: 3px solid;
+  border-color: #FFF #FFF transparent transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+.loader::after,
+.loader::before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  border: 3px solid;
+  border-color: transparent transparent #FFF #FFF;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  animation: rotationBack 0.5s linear infinite;
+  transform-origin: center center;
+}
+.loader::before {
+  width: 10px;
+  height: 10px;
+  border-color: #FFF #FFF transparent transparent;
+  animation: rotation 1.5s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotationBack {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+
+.imageLoader {
+  width: 55px;
+  height: 55px;
+  margin: 20px;
+  position: relative;
+}
+.imageLoader:before {
+    content: '';
+    width: 55px;
+    height: 8px;
+    background: #000;
+    opacity: 0.25;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    border-radius: 50%;
+    animation: shadow 0.5s linear infinite;
+  }
+  .imageLoader:after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background: #759072;
+    animation: bxSpin 0.5s linear infinite;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 4px;
+  }
+@keyframes bxSpin {
+  17% {
+    border-bottom-right-radius: 3px;
+  }
+  25% {
+    transform: translateY(9px) rotate(22.5deg);
+  }
+  50% {
+    transform: translateY(18px) scale(1, .9) rotate(45deg);
+    border-bottom-right-radius: 40px;
+  }
+  75% {
+    transform: translateY(9px) rotate(67.5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(90deg);
+  }
+}
+
+@keyframes shadow {
+  0%, 100% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.2, 1);
+  }
+}

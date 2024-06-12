@@ -1,5 +1,5 @@
 import { mongooseConnect } from "@/lib/mongoose";
-import User from "@/models/User";
+import { User } from "@/models/User";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -24,7 +24,6 @@ export async function POST(req: NextRequest) {
 
     throw new Error("User was not created.");
   } catch (error) {
-    console.log(error);
     if (error instanceof Error) {
       return NextResponse.json(
         {

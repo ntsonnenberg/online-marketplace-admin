@@ -5,6 +5,7 @@ import AuthProvider from "@/context/AuthProvider";
 import { getServerSession } from "next-auth";
 import { authConfig } from "./api/auth/[...nextauth]/config";
 import Nav from "@/components/Nav";
+import axios from "axios";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,6 +14,8 @@ export const metadata: Metadata = {
   description:
     "This is an online marketplace for vendors of 'Online Marketplace' to sell their products.",
 };
+
+axios.defaults.baseURL = "http://localhost:3000/api";
 
 export default async function RootLayout({
   children,
@@ -54,9 +57,9 @@ export default async function RootLayout({
                     />
                   </svg>
                 </button>
-                <h1>Vendor Name</h1>
+                <h2>Vendor Name</h2>
               </div>
-              <h1>Welcome {session?.user?.email}!</h1>
+              <h2>Welcome {session?.user?.email}!</h2>
             </div>
             <div className="flex">
               <Nav />

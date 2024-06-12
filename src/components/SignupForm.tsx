@@ -1,7 +1,5 @@
 "use client";
 
-import Button from "./Button";
-import Input from "./Input";
 import { useFormState } from "react-dom";
 import { signup } from "@/actions/auth";
 import { useRouter } from "next/navigation";
@@ -19,14 +17,14 @@ export default function SignupForm() {
     <form action={action} className="flex flex-col gap-4 w-1/4">
       <div className="flex flex-col gap-2">
         <label htmlFor="email">Email</label>
-        <Input id="email" name="email" placeholder="Enter email..." />
+        <input id="email" name="email" placeholder="Enter email..." />
       </div>
       {state?.errors?.email && (
         <p className="text-red-700">{state.errors.email}</p>
       )}
       <div className="flex flex-col gap-2">
         <label htmlFor="password">Password</label>
-        <Input
+        <input
           id="password"
           name="password"
           type="password"
@@ -45,7 +43,7 @@ export default function SignupForm() {
       )}
       <div className="flex flex-col gap-2">
         <label htmlFor="confirm">Confirm Password</label>
-        <Input
+        <input
           id="confirm"
           name="confirm"
           type="password"
@@ -55,9 +53,9 @@ export default function SignupForm() {
       {state?.errors?.confirm && (
         <p className="text-red-700">{state.errors.confirm}</p>
       )}
-      <Button color="primary" theme="filled" type="submit">
+      <button className="btn-primary-filled p-2" type="submit">
         Sign Up
-      </Button>
+      </button>
       {state?.message && state.message !== "Success" && (
         <p className="text-red-700">{state.message}</p>
       )}

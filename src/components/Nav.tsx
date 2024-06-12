@@ -22,7 +22,7 @@ export default function Nav({ show }: Props) {
     inactiveLink + " bg-primary-variant text-on-primary font-bold rounded-sm";
 
   return (
-    <aside className="py-8 px-12 border-r border-3 border-primary-variant h-dvh">
+    <aside className="py-8 px-12">
       <nav className="flex flex-col gap-5">
         <Link className={pathname === "/" ? activeLink : inactiveLink} href="/">
           <svg
@@ -42,7 +42,7 @@ export default function Nav({ show }: Props) {
           Dashboard
         </Link>
         <Link
-          className={pathname === "/products" ? activeLink : inactiveLink}
+          className={pathname.includes("/products") ? activeLink : inactiveLink}
           href="/products"
         >
           <svg
@@ -62,7 +62,9 @@ export default function Nav({ show }: Props) {
           Products
         </Link>
         <Link
-          className={pathname === "/categories" ? activeLink : inactiveLink}
+          className={
+            pathname.includes("/categories") ? activeLink : inactiveLink
+          }
           href="/categories"
         >
           <svg
@@ -82,7 +84,7 @@ export default function Nav({ show }: Props) {
           Categories
         </Link>
         <Link
-          className={pathname === "/orders" ? activeLink : inactiveLink}
+          className={pathname.includes("/orders") ? activeLink : inactiveLink}
           href="/orders"
         >
           <svg
@@ -107,7 +109,9 @@ export default function Nav({ show }: Props) {
           Orders
         </Link>
         <Link
-          className={pathname === "/home-page" ? activeLink : inactiveLink}
+          className={
+            pathname.includes("/home-page") ? activeLink : inactiveLink
+          }
           href="/home-page"
         >
           <svg
@@ -127,7 +131,7 @@ export default function Nav({ show }: Props) {
           Home Page
         </Link>
         <Link
-          className={pathname === "/payments" ? activeLink : inactiveLink}
+          className={pathname.includes("/payments") ? activeLink : inactiveLink}
           href="/payments"
         >
           <svg
@@ -147,7 +151,7 @@ export default function Nav({ show }: Props) {
           Payments
         </Link>
         <Link
-          className={pathname === "/account" ? activeLink : inactiveLink}
+          className={pathname.includes("/account") ? activeLink : inactiveLink}
           href="/account"
         >
           <svg

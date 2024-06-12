@@ -1,4 +1,10 @@
-import mongoose from "mongoose";
+import mongoose, { Date } from "mongoose";
+
+export type Data = {
+  _id: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
 
 export function mongooseConnect() {
   if (mongoose.connection.readyState === 1) {

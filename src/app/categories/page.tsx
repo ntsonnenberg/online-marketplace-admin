@@ -1,15 +1,20 @@
-import { getServerSession } from "next-auth";
-import { authConfig } from "@/app/api/auth/[...nextauth]/config";
-import Button from "@/components/Button";
+import { getCategories } from "@/actions/categories";
+import CategoryView from "@/components/CategoryView";
+import Table from "@/components/Table";
+import { Category } from "@/models/Category";
+import Link from "next/link";
 
-export default async function ProductsPage() {
-  const session = await getServerSession(authConfig);
+export default async function CategoriesPage() {
+  const categories = await getCategories();
 
   return (
     <div>
       <div className="flex justify-between">
-        <h1 className="text-4xl font-bold">Products</h1>
-        <Button color="primary" theme="filled" className="flex gap-2">
+        <h1>Categories</h1>
+        <Link
+          href={`/categories/new`}
+          className="btn-primary-filled p-2 flex gap-2"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -22,9 +27,10 @@ export default async function ProductsPage() {
               clipRule="evenodd"
             />
           </svg>
-          Add Product
-        </Button>
+          Add Category
+        </Link>
       </div>
+      <CategoryView categories={categories} />
     </div>
   );
 }
