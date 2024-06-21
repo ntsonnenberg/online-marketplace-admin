@@ -2,6 +2,16 @@ import { Product } from "@/models/Product";
 import { mongooseConnect } from "./mongoose";
 import { getUserByEmail } from "./user";
 import axios from "axios";
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/app/api/auth/[...nextauth]/config";
+import { getCategoryById } from "./category";
+
+export const serializeProduct = (product: Product): Product => ({
+  ...product,
+  _id: product._id.toString(),
+  category: product?.category ? product.category.toString() : null,
+  vendor: product.vendor.toString(),
+});
 
 interface QueryOptions {
   title?: string;
@@ -12,13 +22,6 @@ interface QueryOptions {
   properties?: {};
   vendor?: string;
 }
-
-const serializeProduct = (product: Product): Product => ({
-  ...product,
-  _id: product._id.toString(),
-  category: product?.category ? product.category.toString() : null,
-  vendor: product.vendor.toString(),
-});
 
 export const getProducts = async (query: QueryOptions) => {
   try {
@@ -77,11 +80,11 @@ export const deleteProductById = async (id: string) => {
     }
 
     const imageKeys = product.images.map((image: string) =>
-      image.split(".com/").pop()
+      image.split("product-images/").pop()
     );
 
     for (const key of imageKeys) {
-      const response = await axios.delete(`/upload/${key}`);
+      const response = await axios.delete(`/upload/product/${key}`);
       if (response.status !== 200) {
         throw new Error(`Failed to delete object with key ${key}.`);
       }
@@ -133,27 +136,39 @@ interface UpdatedProduct {
   images?: string[];
   category?: string | null;
   properties?: any;
-  vendor?: string;
 }
 
 export const updateProductById = async (
   id: string,
-  {
-    title,
-    description,
-    price,
-    images,
-    category,
-    properties,
-    vendor,
-  }: UpdatedProduct
+  { title, description, price, images, category, properties }: UpdatedProduct
 ) => {
   try {
     await mongooseConnect();
 
+    if (!properties) {
+      const product = await Product.findOneAndUpdate(
+        { _id: id },
+        {
+          title,
+          description,
+          price,
+          images,
+          category,
+          $unset: { properties: 1 },
+        },
+        { new: true }
+      );
+
+      if (!product) {
+        throw new Error(`Could not update product with id ${id}.`);
+      }
+
+      return product;
+    }
+
     const product = await Product.findOneAndUpdate(
       { _id: id },
-      { title, description, price, images, category, properties, vendor },
+      { title, description, price, images, category, properties },
       { new: true }
     );
 
@@ -215,4 +230,53 @@ export const createNewProduct = async ({
     }
     throw new Error("Could not create product.");
   }
+};
+
+export const getVendorId = async () => {
+  try {
+    const session = await getServerSession(authConfig);
+    if (!session?.user?.email) {
+      throw new Error("Session email not found.");
+    }
+    const user = await getUserByEmail(session.user.email);
+    if (!user) {
+      throw new Error("Could not found user.");
+    }
+
+    return user._id;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error);
+      throw new Error(error.message);
+    }
+    throw new Error("Could not get vendor id.");
+  }
+};
+
+export const createPropertiesObject = async (
+  categoryId: string | undefined,
+  formData: FormData
+) => {
+  let properties: any = {};
+
+  if (categoryId) {
+    const selectedCategory = await getCategoryById(categoryId);
+
+    selectedCategory.properties.forEach((prop) => {
+      const value = formData.get(`property-${prop.name}`);
+      properties[prop.name] = value;
+    });
+
+    if (
+      selectedCategory?.parent &&
+      selectedCategory.parent?.properties?.length
+    ) {
+      selectedCategory.parent.properties.forEach((prop) => {
+        const value = formData.get(`property-${prop.name}`);
+        properties[prop.name] = value;
+      });
+    }
+  }
+
+  return properties;
 };

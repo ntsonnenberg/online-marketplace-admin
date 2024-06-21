@@ -1,7 +1,5 @@
 import { getCategories } from "@/actions/categories";
 import CategoryView from "@/components/CategoryView";
-import Table from "@/components/Table";
-import { Category } from "@/models/Category";
 import Link from "next/link";
 
 export default async function CategoriesPage() {

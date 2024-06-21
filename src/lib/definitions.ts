@@ -104,3 +104,20 @@ export const CategoryFormSchema = z.object({
     })
   ),
 });
+
+export type HomePageFormState =
+  | {
+      errors?: {
+        about?: string[];
+        mission?: string[];
+      };
+      message?: string;
+    }
+  | undefined;
+
+export const HomePageFormSchema = z.object({
+  about: z.string().min(1, { message: '"About Us" section is required.' }),
+  mission: z
+    .string()
+    .min(1, { message: '"Mission Statement" section is required.' }),
+});

@@ -40,7 +40,6 @@ export async function POST(req: NextRequest, context: { params: Params }) {
     await mongooseConnect();
     const email = context.params.email;
     const user = await User.findOne({ email }).select("-password -source");
-    console.log(user);
 
     if (user) {
       const { title, description, price, category, properties } =

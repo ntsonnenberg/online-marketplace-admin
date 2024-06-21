@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    @apply bg-background text-primary;
+    @apply bg-background text-on-background;
   }
 }
 
@@ -13,8 +13,8 @@ label {
 }
 
 input, textarea, select {
-  @apply bg-transparent outline outline-1 outline-primary placeholder-primary-variant rounded-sm p-2;
-  @apply focus:outline-2 focus:shadow-sm;
+  @apply bg-transparent outline outline-1 outline-on-background placeholder-on-background/50 rounded-sm p-2;
+  @apply focus:outline-2 focus:shadow-sm focus:outline-primary focus:placeholder-primary-variant;
 }
 
 h1 {
@@ -26,39 +26,39 @@ h2 {
 }
 
 .btn-primary-filled {
-  @apply rounded-sm bg-primary text-on-primary outline outline-2 outline-primary hover:bg-primary-variant hover:outline-primary-variant;
+  @apply rounded-sm bg-primary text-on-primary outline outline-2 outline-primary hover:bg-primary-variant cursor-pointer hover:outline-primary-variant;
 }
 
 .btn-primary-outline {
-  @apply rounded-sm bg-transparent text-primary outline outline-2 outline-primary hover:bg-primary hover:text-on-primary
+  @apply rounded-sm bg-transparent text-primary outline outline-2 outline-primary cursor-pointer hover:bg-primary hover:text-on-primary
 }
 
 .btn-primary-text {
-  @apply bg-transparent text-primary hover:text-primary-variant
+  @apply bg-transparent text-primary cursor-pointer hover:text-primary-variant
 }
 
 .btn-secondary-filled {
-  @apply rounded-sm bg-secondary text-on-secondary outline outline-2 outline-secondary hover:bg-secondary-variant hover:outline-secondary-variant;
+  @apply rounded-sm bg-secondary text-on-secondary outline outline-2 outline-secondary cursor-pointer hover:bg-secondary-variant hover:outline-secondary-variant;
 }
 
 .btn-secondary-outline {
-  @apply rounded-sm bg-transparent text-secondary outline outline-2 outline-secondary hover:bg-secondary hover:text-on-secondary;
+  @apply rounded-sm bg-transparent text-secondary outline outline-2 outline-secondary cursor-pointer hover:bg-secondary hover:text-on-secondary;
 }
 
 .btn-secondary-text {
-  @apply bg-transparent text-secondary hover:text-secondary-variant;
+  @apply bg-transparent text-secondary cursor-pointer hover:text-secondary-variant;
 }
 
 .btn-delete-filled {
-  @apply rounded-sm bg-red-700 text-on-primary outline outline-2 outline-red-700 hover:bg-red-500 hover:outline-red-500;
+  @apply rounded-sm bg-red-700 text-on-primary outline outline-2 outline-red-700 cursor-pointer hover:bg-red-500 hover:outline-red-500;
 }
 
 .btn-delete-outline {
-  @apply rounded-sm bg-transparent text-red-700 outline outline-2 outline-red-700 hover:bg-red-700 hover:text-on-primary;
+  @apply rounded-sm bg-transparent text-red-700 outline outline-2 outline-red-700 cursor-pointer hover:bg-red-700 hover:text-on-primary;
 }
 
 .btn-delete-text {
-  @apply bg-transparent text-red-700 hover:text-red-500;
+  @apply bg-transparent text-red-700 cursor-pointer hover:text-red-500;
 }
 
 .loader {
@@ -116,13 +116,13 @@ h2 {
 }
 
 
-.imageLoader {
+.uploadLoader {
   width: 55px;
   height: 55px;
   margin: 20px;
   position: relative;
 }
-.imageLoader:before {
+.uploadLoader:before {
     content: '';
     width: 55px;
     height: 8px;
@@ -134,7 +134,7 @@ h2 {
     border-radius: 50%;
     animation: shadow 0.5s linear infinite;
   }
-  .imageLoader:after {
+  .uploadLoader:after {
     content: '';
     width: 100%;
     height: 100%;

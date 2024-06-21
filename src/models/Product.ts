@@ -1,5 +1,4 @@
 import mongoose, { Schema, model, models } from "mongoose";
-import { Category, Property } from "./Category";
 
 export interface Product {
   _id: string;
@@ -20,7 +19,12 @@ const ProductSchema = new Schema(
     images: [{ type: String }],
     category: { type: mongoose.Types.ObjectId, ref: "Category" },
     properties: { type: Object },
-    vendor: { type: mongoose.Types.ObjectId, ref: "User", required: true },
+    vendor: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      required: true,
+      immutable: true,
+    },
   },
   { timestamps: true }
 );

@@ -39,7 +39,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <div className="min-h-screen">
-            <div className="bg-primary text-on-primary p-4 flex items-center justify-between drop-shadow-lg">
+            <div className="bg-primary text-on-primary p-4 flex items-center justify-between shadow-lg">
               <div className="flex gap-4">
                 <button className="w-auto">
                   <svg

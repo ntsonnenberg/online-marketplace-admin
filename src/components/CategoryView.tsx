@@ -28,6 +28,12 @@ export default function CategoryView({ categories }: Props) {
 
   const showCategory = (id: string) => {
     const category = categories.find((cat) => cat._id === id);
+
+    if (category?._id === selectedCategory?._id) {
+      setSelectedCategory(null);
+      return;
+    }
+
     if (category) {
       setSelectedCategory(category);
     } else {
@@ -45,7 +51,7 @@ export default function CategoryView({ categories }: Props) {
           } p-1`}
         >
           <button
-            className="btn-primary-text font-bold"
+            className="btn-primary-text font-bold text-start"
             onClick={() => showCategory(data._id)}
           >
             {data.name}
@@ -123,7 +129,7 @@ export default function CategoryView({ categories }: Props) {
                 {selectedCategory.properties.map((property) => (
                   <div
                     key={property._id}
-                    className="border border-primary-variant p-2 rounded-md shadow-md"
+                    className="bg-[#e2d0b5] p-2 rounded-md shadow-md"
                   >
                     <p className="font-bold">{property.name}</p>
                     {property.values.map((value) => (
@@ -148,7 +154,7 @@ export default function CategoryView({ categories }: Props) {
                       {selectedCategory.parent.properties?.map((property) => (
                         <div
                           key={property._id}
-                          className="border border-primary-variant p-2 rounded-md shadow-md"
+                          className="bg-[#e2d0b5] p-2 rounded-md shadow-md"
                         >
                           <p className="font-bold">{property.name}</p>
                           {property.values.map((value) => (

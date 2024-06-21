@@ -17,9 +17,9 @@ export default function Nav({ show }: Props) {
     await router.push("/");
   };
 
-  const inactiveLink = "flex items-center gap-1 p-2";
+  const inactiveLink = "flex items-center gap-1 p-2 text-primary";
   const activeLink =
-    inactiveLink + " bg-primary-variant text-on-primary font-bold rounded-sm";
+    "flex items-center gap-1 p-1 bg-primary-variant text-on-primary font-bold rounded-sm";
 
   return (
     <aside className="py-8 px-12">

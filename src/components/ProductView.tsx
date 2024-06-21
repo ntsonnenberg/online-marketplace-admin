@@ -29,6 +29,12 @@ export default function ProductView({ products }: Props) {
 
   const showProduct = (id: string) => {
     const product = products.find((prod) => prod._id === id);
+
+    if (product?._id === selectedProduct?._id) {
+      setSelectedProduct(null);
+      return;
+    }
+
     if (product) {
       setSelectedProduct(product);
     } else {
@@ -46,7 +52,7 @@ export default function ProductView({ products }: Props) {
           } p-1`}
         >
           <button
-            className="btn-primary-text font-bold"
+            className="btn-primary-text font-bold text-start"
             onClick={() => showProduct(data._id)}
           >
             {data.title}
@@ -136,9 +142,12 @@ export default function ProductView({ products }: Props) {
                 <div>
                   <p className="font-bold text-lg">Properties</p>
                   {Object.keys(selectedProduct.properties).map((propName) => (
-                    <div className="ml-2" key={propName}>
-                      {propName}: {selectedProduct.properties[propName]}
-                    </div>
+                    <p className="ml-2" key={propName}>
+                      {propName}:{" "}
+                      <span className="opacity-70">
+                        {selectedProduct.properties[propName]}
+                      </span>
+                    </p>
                   ))}
                 </div>
               )}

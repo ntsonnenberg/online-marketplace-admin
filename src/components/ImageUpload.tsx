@@ -8,6 +8,7 @@ interface Props {
   images?: string[];
 }
 
+// TODO: /product-images path hardcoded out on API request to delete image
 export default function ImageUpload({ images: currentImages }: Props) {
   const [images, setImages] = useState<string[]>(currentImages || []);
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -27,7 +28,7 @@ export default function ImageUpload({ images: currentImages }: Props) {
       data.append("file", file);
     });
 
-    const response = await axios.post("/api/upload", data);
+    const response = await axios.post("/api/upload/product", data);
 
     setImages([...response.data.links, ...images]);
     setIsUploading(false);
@@ -38,26 +39,31 @@ export default function ImageUpload({ images: currentImages }: Props) {
 
     setIsUploading(true);
 
-    const key = linkToRemove.split(".com/").pop();
-    const response = await axios.delete(`/api/upload/${key}`);
+    try {
+      const key = linkToRemove.split("product-images/").pop();
+      const response = await axios.delete(`/api/upload/product/${key}`);
 
-    if (response.status === 200) {
-      const newImageList = images.filter((link) => link !== linkToRemove);
-      setImages(newImageList);
+      if (response.status === 200) {
+        const newImageList = images.filter((link) => link !== linkToRemove);
+        setImages(newImageList);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsUploading(false);
     }
-    setIsUploading(false);
   };
 
   return (
     <div className="flex flex-col">
       <label htmlFor="images">Photos</label>
       <div className="mb-2 flex flex-wrap gap-4">
-        <label className="w-28 h-28 cursor-pointer flex flex-col justify-center items-center text-center gap-1 border border-primary rounded-sm shadow-sm">
+        <label className="w-28 h-28 cursor-pointer flex flex-col justify-center items-center text-center border border-on-background rounded-md shadow-sm">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            className="w-6 h-6"
+            className="w-8 h-8"
           >
             <path
               fillRule="evenodd"
@@ -65,12 +71,16 @@ export default function ImageUpload({ images: currentImages }: Props) {
               clipRule="evenodd"
             />
           </svg>
-          <div className="text-sm">Upload image</div>
+          <div className="mt-2">
+            <p className="text-sm">Upload image</p>
+            <p className="text-[10px]">JPG, JPEG, PNG</p>
+          </div>
           <input
             type="file"
             multiple
             onChange={async (event) => await uploadImage(event)}
             className="hidden"
+            accept=".jpg,.jpeg,.png"
           />
           {images.map((link) => (
             <input
@@ -82,7 +92,7 @@ export default function ImageUpload({ images: currentImages }: Props) {
             />
           ))}
         </label>
-        {isUploading && <span className="imageLoader"></span>}
+        {isUploading && <span className="uploadLoader"></span>}
         {!!images?.length &&
           images.map(
             (link) =>

@@ -1,13 +1,12 @@
 "use client";
 
 import { createProduct, updateProduct } from "@/actions/products";
-import Link from "next/link";
 import { useFormState } from "react-dom";
-import SubmitButton from "./SubmitButton";
 import React, { useState } from "react";
 import ImageUpload from "./ImageUpload";
 import { Product } from "@/models/Product";
 import { Category } from "@/models/Category";
+import FormButtons from "./FormButttons";
 
 interface Props {
   product?: Product;
@@ -24,7 +23,6 @@ export default function ProductForm({ product, categoryOptions }: Props) {
   const propertyOptions = [];
   if (categoryOptions.length > 0 && category) {
     let selectedCat = categoryOptions.find(({ _id }) => _id === category);
-    console.log(selectedCat);
 
     if (selectedCat) {
       propertyOptions.push(...selectedCat.properties);
@@ -43,7 +41,7 @@ export default function ProductForm({ product, categoryOptions }: Props) {
   }
 
   return (
-    <form action={action} className="flex flex-col gap-4">
+    <form action={action} className="flex flex-col gap-4 mb-20">
       {product?._id && (
         <input id="_id" name="_id" defaultValue={product._id} hidden />
       )}
@@ -52,7 +50,6 @@ export default function ProductForm({ product, categoryOptions }: Props) {
         <input
           id="title"
           name="title"
-          type="text"
           defaultValue={product?.title}
           placeholder="Enter product title..."
         />
@@ -89,27 +86,32 @@ export default function ProductForm({ product, categoryOptions }: Props) {
           ))}
         </select>
       </div>
-      {propertyOptions.length > 0 &&
-        propertyOptions.map((property) => (
-          <div key={property._id} className="flex gap-4 items-center ml-8">
-            <label>
-              {property.name[0].toUpperCase() + property.name.substring(1)}
-            </label>
-            <select
-              id={`property-${property.name}`}
-              name={`property-${property.name}`}
-              defaultValue={
-                product?.properties ? product.properties[property.name] : ""
-              }
+      <div className="mx-10">
+        {propertyOptions.length > 0 &&
+          propertyOptions.map((property) => (
+            <div
+              key={property._id}
+              className="grid grid-cols-2 items-center mt-4"
             >
-              {property.values.map((value) => (
-                <option key={value} value={value}>
-                  {value}
-                </option>
-              ))}
-            </select>
-          </div>
-        ))}
+              <label>
+                {property.name[0].toUpperCase() + property.name.substring(1)}
+              </label>
+              <select
+                id={`property-${property.name}`}
+                name={`property-${property.name}`}
+                defaultValue={
+                  product?.properties ? product.properties[property.name] : ""
+                }
+              >
+                {property.values.map((value) => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ))}
+      </div>
       <ImageUpload images={product?.images} />
       <div className="flex flex-col">
         <label htmlFor="description">Description</label>
@@ -123,15 +125,7 @@ export default function ProductForm({ product, categoryOptions }: Props) {
           <p className="text-red-700">{state.errors.description}</p>
         )}
       </div>
-      <div className="flex justify-end gap-4">
-        <Link
-          href={"/products"}
-          className="btn-primary-outline p-2 w-32 flex justify-center"
-        >
-          Cancel
-        </Link>
-        <SubmitButton />
-      </div>
+      <FormButtons backTo="/products" />
     </form>
   );
 }

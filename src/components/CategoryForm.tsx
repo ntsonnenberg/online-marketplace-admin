@@ -1,11 +1,9 @@
 "use client";
 
 import { createCategory, updateCategory } from "@/actions/categories";
-import { Category } from "@/models/Category";
-import Link from "next/link";
 import { useState } from "react";
 import { useFormState } from "react-dom";
-import SubmitButton from "./SubmitButton";
+import FormButtons from "./FormButttons";
 
 interface Props {
   _id?: string;
@@ -69,7 +67,7 @@ export default function CategoryForm({
   };
 
   return (
-    <form action={action}>
+    <form action={action} className="mb-20">
       {_id && <input id="_id" name="_id" defaultValue={_id} hidden />}
       <div className="flex gap-2">
         <div className="flex flex-col grow">
@@ -112,7 +110,10 @@ export default function CategoryForm({
         <div className="flex flex-col gap-4">
           {properties?.length > 0 &&
             properties.map((property, index) => (
-              <div key={index} className="p-2 rounded-lg shadow-md">
+              <div
+                key={index}
+                className="p-2 rounded-lg shadow-md bg-[#e9d9c2]"
+              >
                 <div className="flex gap-2 my-2 items-start relative">
                   <input
                     id="property-name"
@@ -203,15 +204,7 @@ export default function CategoryForm({
             </p>
           ))}
       </div>
-      <div className="flex justify-end gap-4">
-        <Link
-          href="/categories"
-          className="btn-primary-outline p-2 w-32 flex justify-center"
-        >
-          Cancel
-        </Link>
-        <SubmitButton />
-      </div>
+      <FormButtons backTo="/categories" />
     </form>
   );
 }

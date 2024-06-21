@@ -1,7 +1,6 @@
 "use server";
 
 import { authConfig } from "@/app/api/auth/[...nextauth]/config";
-import { getCategoryById } from "@/lib/category";
 import { ProductFormSchema, ProductFormState } from "@/lib/definitions";
 import {
   createNewProduct,
@@ -9,8 +8,9 @@ import {
   getProductById,
   getProductsByVendor,
   updateProductById,
+  getVendorId,
+  createPropertiesObject,
 } from "@/lib/product";
-import { getUserByEmail } from "@/lib/user";
 import { Product } from "@/models/Product";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
@@ -41,30 +41,13 @@ export const updateProduct = async (
   const _id = formData.get("_id") || "";
   const images = formData.getAll("images") as string[];
 
-  let properties: any = {};
-  if (category) {
-    const selectedCategory = await getCategoryById(category);
-
-    selectedCategory.properties.forEach((prop) => {
-      const value = formData.get(`property-${prop.name}`);
-      properties[prop.name] = value;
-    });
-  }
+  let properties = await createPropertiesObject(category, formData);
 
   if (!Object.keys(properties).length) {
     properties = undefined;
   }
 
   try {
-    const session = await getServerSession(authConfig);
-    if (!session?.user?.email) {
-      throw new Error("Session email not found.");
-    }
-    const user = await getUserByEmail(session.user.email);
-    if (!user) {
-      throw new Error("Could not found user.");
-    }
-
     await updateProductById(_id.toString(), {
       title,
       description,
@@ -72,13 +55,12 @@ export const updateProduct = async (
       images,
       category: category || null,
       properties,
-      vendor: user._id,
     });
   } catch (error) {
     console.error(error);
 
     return {
-      message: "Could not create product.",
+      message: "Could not update product.",
     };
   }
 
@@ -109,29 +91,14 @@ export const createProduct = async (
   const { title, description, price, category } = validatedFields.data;
   const images = formData.getAll("images") as string[];
 
-  let properties: any = {};
-  if (category) {
-    const selectedCategory = await getCategoryById(category);
-
-    selectedCategory.properties.forEach((prop) => {
-      const value = formData.get(`property-${prop.name}`);
-      properties[prop.name] = value;
-    });
-  }
+  let properties = await createPropertiesObject(category, formData);
 
   if (!Object.keys(properties).length) {
     properties = undefined;
   }
 
   try {
-    const session = await getServerSession(authConfig);
-    if (!session?.user?.email) {
-      throw new Error("Session email not found.");
-    }
-    const user = await getUserByEmail(session.user.email);
-    if (!user) {
-      throw new Error("Could not found user.");
-    }
+    const vendor = await getVendorId();
 
     await createNewProduct({
       title,
@@ -140,7 +107,7 @@ export const createProduct = async (
       images,
       category: category || null,
       properties,
-      vendor: user._id,
+      vendor,
     });
   } catch (error) {
     console.error(error);
