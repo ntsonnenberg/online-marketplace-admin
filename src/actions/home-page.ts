@@ -9,7 +9,6 @@ import {
   updateHomePageById,
 } from "@/lib/home-page";
 import { getVendorId } from "@/lib/product";
-import axios from "axios";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -33,7 +32,11 @@ export const updateHomePage = async (
   const { about, mission } = validatedFields.data;
   const _id = formData.get("_id") || "";
   const featured = formData.getAll("featured") as string[];
-  const video = formData.get("company-video") as string;
+  let video = formData.get("company-video") as string;
+
+  if (!video) {
+    video = formData.get("youtube-link") as string;
+  }
 
   try {
     await updateHomePageById(_id.toString(), {
@@ -72,7 +75,11 @@ export const createHomePage = async (
   // Create Home Page
   const { about, mission } = validatedFields.data;
   const featured = formData.getAll("featured") as string[];
-  const video = formData.get("company-video") as string;
+  let video = formData.get("company-video") as string;
+
+  if (!video) {
+    video = formData.get("youtube-link") as string;
+  }
 
   try {
     const vendor = await getVendorId();

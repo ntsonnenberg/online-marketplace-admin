@@ -54,14 +54,27 @@ export default function HomePageForm({ homePage, productOptions }: Props) {
   };
 
   return (
-    <form action={action} className="flex flex-col gap-4 mb-20">
+    <form action={action} className="flex flex-col gap-4 my-20">
       {homePage?._id && (
         <input id="_id" name="_id" defaultValue={homePage._id} hidden />
       )}
       <div>
-        <h2 className="font-bold">Upload Video</h2>
+        <h2 className="font-bold">Upload Video or YouTube Link</h2>
         <h3 className="text-lg opacity-50">Post a video about your company.</h3>
-        <VideoUpload video={homePage?.video} />
+        <VideoUpload
+          video={!homePage?.video?.includes("youtube") ? homePage?.video : null}
+        />
+        <div className="flex flex-col mt-4 mb-16">
+          <label htmlFor="youtube-link">YouTube Link</label>
+          <input
+            id="youtube-link"
+            name="youtube-link"
+            placeholder="Make sure to use embedded link..."
+            defaultValue={
+              homePage?.video?.includes("youtube") ? homePage.video : ""
+            }
+          />
+        </div>
       </div>
       <div className="flex flex-col">
         <label htmlFor="featured" className="font-bold">

@@ -41,12 +41,25 @@ export default async function HomePagePage() {
         <div>
           <div className="mx-20">
             {homePage.video ? (
-              <Suspense fallback={<p>Loading video...</p>}>
-                <VideoPlayer
+              homePage.video.includes("youtube") ? (
+                <iframe
+                  width="560"
+                  height="315"
                   src={homePage.video}
-                  className="rounded-xl object-cover mx-auto h-auto"
-                />
-              </Suspense>
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                ></iframe>
+              ) : (
+                <Suspense fallback={<p>Loading video...</p>}>
+                  <VideoPlayer
+                    src={homePage.video}
+                    className="rounded-xl object-cover mx-auto h-auto"
+                  />
+                </Suspense>
+              )
             ) : (
               <p>No Company Video</p>
             )}
