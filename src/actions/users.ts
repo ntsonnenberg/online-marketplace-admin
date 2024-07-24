@@ -25,9 +25,14 @@ export const updateUser = async (
   // Update User
   const { name, phoneNumber } = validatedFields.data;
   const _id = formData.get("_id") || "";
+  const images = formData.getAll("images") as string[];
 
   try {
-    await updateUserById(_id.toString(), { name, phoneNumber });
+    await updateUserById(_id.toString(), {
+      name,
+      phoneNumber,
+      image: images.length ? images[0] : null,
+    });
   } catch (error) {
     console.error(error);
 

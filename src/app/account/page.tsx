@@ -1,4 +1,5 @@
 import { getUser } from "@/actions/users";
+import Image from "next/image";
 import Link from "next/link";
 
 export default async function AccountPage() {
@@ -10,10 +11,9 @@ export default async function AccountPage() {
         <h1>Account</h1>
         {user && (
           <Link
-            className="btn-primary-outline p-1 text-lg flex gap-2 items-center"
+            className="btn-primary-outline p-2"
             href={`/account/${user._id}/update`}
           >
-            Edit Account{" "}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -32,9 +32,21 @@ export default async function AccountPage() {
         )}
       </div>
       <div className="flex flex-col gap-8 mt-10">
-        <div>
-          <p className="opacity-50">Vendor Name</p>
-          <h2 className="font-bold">{user?.name || "No Name"}</h2>
+        <div className="flex gap-8 items-center">
+          <Image
+            src={
+              user?.image ||
+              "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"
+            }
+            alt="vendor-image"
+            width={100}
+            height={100}
+            className="shadow-lg border border-on-background/50 rounded-md"
+          />
+          <div>
+            <p className="opacity-50">Vendor Name</p>
+            <h2 className="font-bold">{user?.name || "No Name"}</h2>
+          </div>
         </div>
         <div>
           <p className="opacity-50">Email</p>

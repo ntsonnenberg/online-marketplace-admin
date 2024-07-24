@@ -125,7 +125,7 @@ export default function ProductView({ products }: Props) {
         className={selectedProduct && "basis-1/2 self-start"}
       />
       {selectedProduct && (
-        <div className="mx-10">
+        <div>
           <ProductImages images={selectedProduct.images} />
           <h1 className="font-bold mt-6">
             {selectedProduct.title} - ${selectedProduct.price}

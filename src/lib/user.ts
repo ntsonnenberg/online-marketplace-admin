@@ -38,18 +38,19 @@ export const createUser = async ({ email, password }: NewUser) => {
 interface UpdateUser {
   name?: string;
   phoneNumber?: string;
+  image?: string | null;
 }
 
 export const updateUserById = async (
   id: string,
-  { name, phoneNumber }: UpdateUser
+  { name, phoneNumber, image }: UpdateUser
 ) => {
   try {
     await mongooseConnect();
 
     const user = await User.findOneAndUpdate(
       { _id: id },
-      { name, phoneNumber },
+      { name, phoneNumber, image },
       { new: true }
     );
 
@@ -94,7 +95,9 @@ export const getUsers = async (query: User) => {
 export const getUserById = async (id: string) => {
   try {
     await mongooseConnect();
-    const user = await User.findById(id);
+    const user: User | null = await User.findById(id)
+      .select("=password")
+      .lean();
     if (!user) {
       throw new Error(`User with id ${id} not found.`);
     }
@@ -111,12 +114,16 @@ export const getUserById = async (id: string) => {
 export const getUserByEmail = async (email: string): User => {
   try {
     await mongooseConnect();
-    const user = await User.findOne({ email }).select("-password");
+    const user: User | null = await User.findOne({ email })
+      .select("-password -createdAt -updatedAt -__v")
+      .lean();
     if (!user) {
       throw new Error(`User with email ${email} not found.`);
     }
 
-    return user;
+    const serializedUser = serializeUser(user);
+
+    return serializedUser;
   } catch (error) {
     console.error(error);
     throw error;

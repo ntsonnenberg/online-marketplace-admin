@@ -112,7 +112,12 @@ export default function ProductForm({ product, categoryOptions }: Props) {
             </div>
           ))}
       </div>
-      <ImageUpload images={product?.images} />
+      <ImageUpload
+        title="Photos"
+        endpoint="/api/upload/product"
+        bucketPath="product-images/"
+        images={product?.images}
+      />
       <div className="flex flex-col">
         <label htmlFor="description">Description</label>
         <textarea

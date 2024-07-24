@@ -5,11 +5,18 @@ import { SyntheticEvent, useState } from "react";
 import axios from "axios";
 
 interface Props {
+  title: string;
+  endpoint: string;
+  bucketPath: string;
   images?: string[];
 }
 
-// TODO: /product-images path hardcoded out on API request to delete image
-export default function ImageUpload({ images: currentImages }: Props) {
+export default function ImageUpload({
+  title,
+  endpoint,
+  bucketPath,
+  images: currentImages,
+}: Props) {
   const [images, setImages] = useState<string[]>(currentImages || []);
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
@@ -28,7 +35,7 @@ export default function ImageUpload({ images: currentImages }: Props) {
       data.append("file", file);
     });
 
-    const response = await axios.post("/api/upload/product", data);
+    const response = await axios.post(endpoint, data);
 
     setImages([...response.data.links, ...images]);
     setIsUploading(false);
@@ -40,8 +47,8 @@ export default function ImageUpload({ images: currentImages }: Props) {
     setIsUploading(true);
 
     try {
-      const key = linkToRemove.split("product-images/").pop();
-      const response = await axios.delete(`/api/upload/product/${key}`);
+      const key = linkToRemove.split(bucketPath).pop();
+      const response = await axios.delete(`${endpoint}/${key}`);
 
       if (response.status === 200) {
         const newImageList = images.filter((link) => link !== linkToRemove);
@@ -56,7 +63,7 @@ export default function ImageUpload({ images: currentImages }: Props) {
 
   return (
     <div className="flex flex-col">
-      <label htmlFor="images">Photos</label>
+      <label htmlFor="images">{title}</label>
       <div className="mb-2 flex flex-wrap gap-4">
         <label className="w-28 h-28 cursor-pointer flex flex-col justify-center items-center text-center border border-on-background rounded-md shadow-sm">
           <svg

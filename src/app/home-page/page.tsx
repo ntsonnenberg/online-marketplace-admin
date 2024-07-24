@@ -17,9 +17,8 @@ export default async function HomePagePage() {
         {homePage && (
           <Link
             href={`/home-page/${homePage._id}/update`}
-            className="btn-primary-outline p-2 flex gap-2 justify-evenly text-lg items-center"
+            className="btn-primary-outline p-2"
           >
-            Edit Home Page{" "}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
