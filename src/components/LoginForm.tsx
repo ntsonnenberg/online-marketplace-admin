@@ -2,6 +2,7 @@
 
 import { useFormState } from "react-dom";
 import { login } from "@/actions/auth";
+import SubmitButton from "./SubmitButton";
 
 export default function LoginForm() {
   const [state, action] = useFormState(login, undefined);
@@ -34,7 +35,7 @@ export default function LoginForm() {
           </ul>
         </div>
       )}
-      <button className="btn-primary-filled p-2 font-bold">Log In</button>
+      <SubmitButton className="w-full">Log In</SubmitButton>
     </form>
   );
 }

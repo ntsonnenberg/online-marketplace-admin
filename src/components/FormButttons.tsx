@@ -16,7 +16,7 @@ export default function FormButtons({ backTo }: Props) {
       >
         Cancel
       </Link>
-      <SubmitButton />
+      <SubmitButton>Save</SubmitButton>
     </div>
   );
 }

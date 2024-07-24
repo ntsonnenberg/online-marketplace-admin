@@ -3,6 +3,7 @@
 import { useFormState } from "react-dom";
 import { signup } from "@/actions/auth";
 import { useRouter } from "next/navigation";
+import SubmitButton from "./SubmitButton";
 
 export default function SignupForm() {
   const [state, action] = useFormState(signup, undefined);
@@ -53,9 +54,7 @@ export default function SignupForm() {
       {state?.errors?.confirm && (
         <p className="text-red-700">{state.errors.confirm}</p>
       )}
-      <button className="btn-primary-filled p-2" type="submit">
-        Sign Up
-      </button>
+      <SubmitButton className="w-full">Sign Up</SubmitButton>
       {state?.message && state.message !== "Success" && (
         <p className="text-red-700">{state.message}</p>
       )}

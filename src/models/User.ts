@@ -4,6 +4,7 @@ export interface User {
   _id: string;
   name?: string;
   email: string;
+  phoneNumber?: string;
   emailVerified?: string;
   source?: string;
 }
@@ -19,6 +20,7 @@ const UserSchema = new Schema(
     },
     password: String,
     image: String,
+    phoneNumber: String,
     emailVerified: String,
     source: String,
   },

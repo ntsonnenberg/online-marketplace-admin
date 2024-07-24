@@ -121,3 +121,18 @@ export const HomePageFormSchema = z.object({
     .string()
     .min(1, { message: '"Mission Statement" section is required.' }),
 });
+
+export type UserFormState =
+  | {
+      errors?: {
+        name?: string[];
+        phoneNumber?: string[];
+      };
+      message?: string;
+    }
+  | undefined;
+
+export const UserFormStateSchema = z.object({
+  name: z.string(),
+  phoneNumber: z.string(),
+});

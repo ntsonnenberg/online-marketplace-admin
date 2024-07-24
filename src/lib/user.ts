@@ -1,6 +1,11 @@
 import { User } from "@/models/User";
 import { mongooseConnect } from "./mongoose";
 
+const serializeUser = (user: User): User => ({
+  ...user,
+  _id: user._id.toString(),
+});
+
 interface NewUser {
   email: string;
   password: string;
@@ -30,6 +35,38 @@ export const createUser = async ({ email, password }: NewUser) => {
   }
 };
 
+interface UpdateUser {
+  name?: string;
+  phoneNumber?: string;
+}
+
+export const updateUserById = async (
+  id: string,
+  { name, phoneNumber }: UpdateUser
+) => {
+  try {
+    await mongooseConnect();
+
+    const user = await User.findOneAndUpdate(
+      { _id: id },
+      { name, phoneNumber },
+      { new: true }
+    );
+
+    if (!user) {
+      throw new Error(`Could not update user with id ${id}.`);
+    }
+
+    return user;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error);
+      throw new Error(error.message);
+    }
+    throw new Error(`Could not update user with id ${id}.`);
+  }
+};
+
 export const getUsers = async (query: User) => {
   try {
     await mongooseConnect();
@@ -54,7 +91,7 @@ export const getUsers = async (query: User) => {
   }
 };
 
-export const getUser = async (id: string) => {
+export const getUserById = async (id: string) => {
   try {
     await mongooseConnect();
     const user = await User.findById(id);
@@ -62,7 +99,9 @@ export const getUser = async (id: string) => {
       throw new Error(`User with id ${id} not found.`);
     }
 
-    return user;
+    const serializedUser = serializeUser(user);
+
+    return serializedUser;
   } catch (error) {
     console.error(error);
     throw error;
@@ -72,7 +111,7 @@ export const getUser = async (id: string) => {
 export const getUserByEmail = async (email: string): User => {
   try {
     await mongooseConnect();
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("-password");
     if (!user) {
       throw new Error(`User with email ${email} not found.`);
     }
