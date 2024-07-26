@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import ImageUpload from "./ImageUpload";
 import { Product } from "@/models/Product";
 import { Category } from "@/models/Category";
-import FormButtons from "./FormButttons";
+import FormButtons from "./FormButtons";
 
 interface Props {
   product?: Product;

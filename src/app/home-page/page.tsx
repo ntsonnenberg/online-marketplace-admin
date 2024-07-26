@@ -38,7 +38,7 @@ export default async function HomePagePage() {
       </div>
       {homePage ? (
         <div>
-          <div className="mx-20">
+          <div className="mx-12">
             {homePage.video ? (
               homePage.video.includes("youtube") ? (
                 <iframe
@@ -65,7 +65,7 @@ export default async function HomePagePage() {
           </div>
           <div className="mt-10">
             <h2 className="font-semibold">About Vendor</h2>
-            <p className="m-4">{homePage.about}</p>
+            <p className="m-2">{homePage.about}</p>
           </div>
           <div className="mt-10">
             <h2 className="font-semibold">Featured Products</h2>
@@ -85,7 +85,7 @@ export default async function HomePagePage() {
           </div>
           <div className="mt-14">
             <h2 className="font-semibold">Vendor Mission Statement</h2>
-            <p className="m-4">{homePage.mission}</p>
+            <p className="m-2">{homePage.mission}</p>
           </div>
         </div>
       ) : (

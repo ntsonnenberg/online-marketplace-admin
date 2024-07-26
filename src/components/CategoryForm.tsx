@@ -3,7 +3,7 @@
 import { createCategory, updateCategory } from "@/actions/categories";
 import { useState } from "react";
 import { useFormState } from "react-dom";
-import FormButtons from "./FormButttons";
+import FormButtons from "./FormButtons";
 
 interface Props {
   _id?: string;

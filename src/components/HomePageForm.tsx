@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useFormState } from "react-dom";
 import { createHomePage, updateHomePage } from "@/actions/home-page";
 import { HomePage } from "@/models/HomePage";
-import FormButtons from "./FormButttons";
+import FormButtons from "./FormButtons";
 
 interface Props {
   homePage?: HomePage;

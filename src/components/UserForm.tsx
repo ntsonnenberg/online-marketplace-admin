@@ -2,7 +2,7 @@
 
 import { useFormState } from "react-dom";
 import { User } from "../models/User";
-import FormButtons from "./FormButttons";
+import FormButtons from "./FormButtons";
 import { updateUser } from "@/actions/users";
 import ImageUpload from "./ImageUpload";
 
