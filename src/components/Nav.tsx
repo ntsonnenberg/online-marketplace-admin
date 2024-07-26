@@ -27,7 +27,6 @@ export default function Nav({ user }: Props) {
   const activeLink =
     "flex items-center gap-1 p-1 bg-primary-variant text-on-primary font-bold rounded-sm";
   const hasNavDrawer = window.innerWidth < 1024;
-  console.log(hasNavDrawer);
 
   return (
     <div>
