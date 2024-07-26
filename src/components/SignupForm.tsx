@@ -15,7 +15,10 @@ export default function SignupForm() {
   }
 
   return (
-    <form action={action} className="flex flex-col gap-4 w-1/4">
+    <form
+      action={action}
+      className="flex flex-col gap-4 w-9/12 md:w-1/3 lg:w-1/4"
+    >
       <div className="flex flex-col gap-2">
         <label htmlFor="email">Email</label>
         <input id="email" name="email" placeholder="Enter email..." />

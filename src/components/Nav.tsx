@@ -3,7 +3,7 @@
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { User } from "@/models/User";
 import HeaderBar from "./HeaderBar";
 
@@ -20,11 +20,14 @@ export default function Nav({ user }: Props) {
   const logout = async () => {
     await signOut();
     await router.push("/");
+    hasNavDrawer && setShow(!show);
   };
 
   const inactiveLink = "flex items-center gap-1 p-2 text-primary";
   const activeLink =
     "flex items-center gap-1 p-1 bg-primary-variant text-on-primary font-bold rounded-sm";
+  const hasNavDrawer = window.innerWidth < 1024;
+  console.log(hasNavDrawer);
 
   return (
     <div>
@@ -34,12 +37,13 @@ export default function Nav({ user }: Props) {
           show
             ? "bg-background left-0 border border-on-background h-dvh w-dvw"
             : "-left-full"
-        } absolute transition-all py-8 px-12 lg:left-0`}
+        } absolute transition-all py-8 px-12 z-10 lg:left-0`}
       >
         <nav className="flex flex-col gap-5">
           <Link
             className={pathname === "/" ? activeLink : inactiveLink}
             href="/"
+            onClick={() => hasNavDrawer && setShow(!show)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -62,6 +66,7 @@ export default function Nav({ user }: Props) {
               pathname.includes("/products") ? activeLink : inactiveLink
             }
             href="/products"
+            onClick={() => hasNavDrawer && setShow(!show)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -84,6 +89,7 @@ export default function Nav({ user }: Props) {
               pathname.includes("/categories") ? activeLink : inactiveLink
             }
             href="/categories"
+            onClick={() => hasNavDrawer && setShow(!show)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -104,6 +110,7 @@ export default function Nav({ user }: Props) {
           <Link
             className={pathname.includes("/orders") ? activeLink : inactiveLink}
             href="/orders"
+            onClick={() => hasNavDrawer && setShow(!show)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -131,6 +138,7 @@ export default function Nav({ user }: Props) {
               pathname.includes("/home-page") ? activeLink : inactiveLink
             }
             href="/home-page"
+            onClick={() => hasNavDrawer && setShow(!show)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -153,6 +161,7 @@ export default function Nav({ user }: Props) {
               pathname.includes("/payments") ? activeLink : inactiveLink
             }
             href="/payments"
+            onClick={() => hasNavDrawer && setShow(!show)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -175,6 +184,7 @@ export default function Nav({ user }: Props) {
               pathname.includes("/account") ? activeLink : inactiveLink
             }
             href="/account"
+            onClick={() => hasNavDrawer && setShow(!show)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

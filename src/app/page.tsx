@@ -10,7 +10,7 @@ export default async function HomePage() {
   if (!session) {
     return (
       <div className="flex flex-col gap-20 justify-center items-center h-screen my-16">
-        <div className="text-center w-1/3">
+        <div className="text-center md:w-10/12 lg:w-1/3">
           <h1 className="font-bold text-4xl mb-10">
             Welcome to Online Marketplace Vendor Portal
           </h1>
