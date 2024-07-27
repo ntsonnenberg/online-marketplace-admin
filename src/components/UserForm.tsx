@@ -19,14 +19,14 @@ export default function UserForm({ user }: Props) {
         <input id="_id" name="_id" defaultValue={user._id} hidden />
       )}
       <div className="flex flex-col gap-8">
-        <div className="flex gap-10 items-center">
+        <div className="flex flex-col md:flex-row gap-10 items-center ">
           <ImageUpload
             title="Logo"
             endpoint="/api/upload/user"
             bucketPath="vendor-logos/"
             images={user?.image ? [user.image] : []}
           />
-          <div className="flex flex-col grow">
+          <div className="flex flex-col grow w-full">
             <label htmlFor="name">Vendor Name</label>
             <input
               id="name"
