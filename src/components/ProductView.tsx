@@ -44,7 +44,7 @@ export default function ProductView({ products }: Props) {
   };
 
   const config =
-    window.innerWidth < 562
+    window?.innerWidth < 562
       ? [
           {
             label: "Title",
@@ -186,43 +186,45 @@ export default function ProductView({ products }: Props) {
           },
         ];
 
+  const renderedSelectedProduct = selectedProduct && (
+    <div>
+      <ProductImages images={selectedProduct.images} />
+      <h1 className="font-bold mt-6">
+        {selectedProduct.title} - ${selectedProduct.price}
+      </h1>
+      <div className="ml-2 my-4">
+        <div className="flex gap-4">
+          <div>
+            <p className="font-bold text-lg">Category</p>
+            <p className="ml-2">
+              {selectedProduct.category || "Uncategorized"}
+            </p>
+          </div>
+          {selectedProduct.properties && (
+            <div>
+              <p className="font-bold text-lg">Properties</p>
+              {Object.keys(selectedProduct.properties).map((propName) => (
+                <p className="ml-2" key={propName}>
+                  {propName}:{" "}
+                  <span className="opacity-70">
+                    {selectedProduct.properties[propName]}
+                  </span>
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="mt-8">
+          <p className="font-bold text-lg">Description</p>
+          <p className="ml-2">{selectedProduct.description}</p>
+        </div>
+      </div>
+    </div>
+  );
+
   const renderedModal = (
     <Modal close={() => setSelectedProduct(null)}>
-      {selectedProduct && (
-        <div className="mt-8">
-          <ProductImages images={selectedProduct.images} />
-          <h1 className="font-bold mt-6">
-            {selectedProduct.title} - ${selectedProduct.price}
-          </h1>
-          <div className="ml-2 my-4">
-            <div className="flex gap-4">
-              <div>
-                <p className="font-bold text-lg">Category</p>
-                <p className="ml-2">
-                  {selectedProduct.category || "Uncategorized"}
-                </p>
-              </div>
-              {selectedProduct.properties && (
-                <div>
-                  <p className="font-bold text-lg">Properties</p>
-                  {Object.keys(selectedProduct.properties).map((propName) => (
-                    <p className="ml-2" key={propName}>
-                      {propName}:{" "}
-                      <span className="opacity-70">
-                        {selectedProduct.properties[propName]}
-                      </span>
-                    </p>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div className="mt-8">
-              <p className="font-bold text-lg">Description</p>
-              <p className="ml-2">{selectedProduct.description}</p>
-            </div>
-          </div>
-        </div>
-      )}
+      {renderedSelectedProduct}
     </Modal>
   );
 
@@ -233,47 +235,11 @@ export default function ProductView({ products }: Props) {
         config={config}
         className={selectedProduct && "basis-1/2 self-start"}
       />
-      {selectedProduct ? (
-        window.innerWidth < 1024 ? (
-          renderedModal
-        ) : (
-          <div>
-            <ProductImages images={selectedProduct.images} />
-            <h1 className="font-bold mt-6">
-              {selectedProduct.title} - ${selectedProduct.price}
-            </h1>
-            <div className="ml-2 my-4">
-              <div className="flex gap-4">
-                <div>
-                  <p className="font-bold text-lg">Category</p>
-                  <p className="ml-2">
-                    {selectedProduct.category || "Uncategorized"}
-                  </p>
-                </div>
-                {selectedProduct.properties && (
-                  <div>
-                    <p className="font-bold text-lg">Properties</p>
-                    {Object.keys(selectedProduct.properties).map((propName) => (
-                      <p className="ml-2" key={propName}>
-                        {propName}:{" "}
-                        <span className="opacity-70">
-                          {selectedProduct.properties[propName]}
-                        </span>
-                      </p>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <div className="mt-8">
-                <p className="font-bold text-lg">Description</p>
-                <p className="ml-2">{selectedProduct.description}</p>
-              </div>
-            </div>
-          </div>
-        )
-      ) : (
-        <div></div>
-      )}
+      {selectedProduct
+        ? window?.innerWidth < 1024
+          ? renderedModal
+          : renderedSelectedProduct
+        : null}
     </div>
   ) : (
     <p className="mt-10 text-lg flex justify-center">No products</p>
