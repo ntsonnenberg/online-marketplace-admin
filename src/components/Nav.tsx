@@ -17,6 +17,8 @@ export default function Nav({ user }: Props) {
   const router = useRouter();
   const pathname = usePathname();
 
+  const hasNavDrawer = window?.innerWidth < 1024;
+
   const logout = async () => {
     await signOut();
     await router.push("/");
@@ -26,7 +28,6 @@ export default function Nav({ user }: Props) {
   const inactiveLink = "flex items-center gap-1 p-2 text-primary";
   const activeLink =
     "flex items-center gap-1 p-1 bg-primary-variant text-on-primary font-bold rounded-sm";
-  const hasNavDrawer = window.innerWidth < 1024;
 
   return (
     <div>
