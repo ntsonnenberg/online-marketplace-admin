@@ -68,6 +68,11 @@ export const authConfig: NextAuthOptions = {
       if (account?.provider === "google") {
         const existingUser = await User.findOne({ email: user.email });
 
+        // TODO: only register with my email
+        if (user.email !== "ntsonnenberg@gmail.com") {
+          return false;
+        }
+
         if (!existingUser) {
           await User.create({
             name: user.name,

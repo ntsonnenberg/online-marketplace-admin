@@ -11,9 +11,16 @@ export type SignUpFormState =
     }
   | undefined;
 
+// TODO: only accepts my email address to register
 export const SignupFormSchema = z
   .object({
-    email: z.string().email({ message: "Please enter a valid email." }).trim(),
+    email: z
+      .string()
+      .email({ message: "Please enter a valid email." })
+      .trim()
+      .includes("ntsonnenberg@gmail.com", {
+        message: "Email not valid to register account.",
+      }),
     password: z
       .string()
       .min(8, { message: "Password must be at least 8 characters." })
