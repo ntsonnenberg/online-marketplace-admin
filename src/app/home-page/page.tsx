@@ -38,12 +38,12 @@ export default async function HomePagePage() {
       </div>
       {homePage ? (
         <div>
-          <div className="mx-12">
+          <div className="lg:mx-12">
             {homePage.video ? (
               homePage.video.includes("youtube") ? (
                 <iframe
-                  width="560"
-                  height="315"
+                  width="100%"
+                  height="500"
                   src={homePage.video}
                   title="YouTube video player"
                   frameBorder="0"
