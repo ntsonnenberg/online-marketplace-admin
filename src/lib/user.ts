@@ -96,7 +96,7 @@ export const getUserById = async (id: string) => {
   try {
     await mongooseConnect();
     const user: User | null = await User.findById(id)
-      .select("=password")
+      .select("-password")
       .lean();
     if (!user) {
       throw new Error(`User with id ${id} not found.`);
