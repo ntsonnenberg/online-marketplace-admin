@@ -32,18 +32,6 @@ const CategorySchema = new Schema(
   },
   {
     timestamps: true,
-    // toJSON: {
-    //   virtuals: true,
-    //   transform: (doc, ret) => {
-    //     ret._id = ret._id.toString();
-
-    //     if (ret.parent && ret.parent._id) {
-    //       ret.parent._id = ret.parent._id.toString();
-    //     }
-
-    //     return ret;
-    //   },
-    // },
   }
 );
 
